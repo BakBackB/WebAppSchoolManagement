@@ -113,6 +113,6 @@ INSERT INTO Users (
   is_active
 )
 VALUES
-  ('admin', '$2a$10$exampleAdminHash', 'admin@hcmiu.edu.com.vn', 1),
-  ('teacheran', '$2a$10$exampleTeacherHash1', 'an.teacher@hcmiu.edu.com.vn', 2),
-  ('studentphuc', '$2a$10$exampleStudentHash2', 'phuc.student@hcmiu.edu.com.vn', 3);
+  ('admin', '$2a$10$MIrjr5q6lJ9/VufBJFDScO.rL718v2An8D9pNaeiv1Y41dry6ecme', 'admin@hcmiu.edu.com.vn', 1),
+  ('teacheran', '$2a$10$xFdJZ7V8jgOv4O3rOoapLun6CocFZKj7BAcriZjTFqWT9aikRQCpa', 'an.teacher@hcmiu.edu.com.vn', 2),
+  ('studentphuc', '$2a$10$c/p4GC/cZt2B99/OPChKXe4cS892BxS/FE/ghudmuodHwdn1oe45W', 'phuc.student@hcmiu.edu.com.vn', 3);
