@@ -1,11 +1,12 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.example</groupId>
-  <artifactId>example</artifactId>
+  <groupId>com.school_management</groupId>
+  <artifactId>school_management</artifactId>
   <packaging>war</packaging>
   <version>1.0</version>
-  <name>example Maven Webapp</name>
+  <name>School Management MVC</name>
   <url>http://maven.apache.org</url>
   <dependencies>
     <dependency>
@@ -14,8 +15,53 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+    <!-- Jakarta Servlet API (Tomcat 10+) -->
+    <dependency>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
+      <version>6.0.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- Jakarta JSP API -->
+    <dependency>
+      <groupId>jakarta.servlet.jsp</groupId>
+      <artifactId>jakarta.servlet.jsp-api</artifactId>
+      <version>3.1.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- JSTL (Jakarta Standard Tag Library) -->
+    <dependency>
+      <groupId>org.glassfish.web</groupId>
+      <artifactId>jakarta.servlet.jsp.jstl</artifactId>
+      <version>3.0.1</version>
+    </dependency>
+
+    <!-- MySQL Connector -->
+    <dependency>
+
+      <groupId>com.mysql</groupId>
+      <artifactId>mysql-connector-j</artifactId>
+      <version>8.2.0</version>
+    </dependency>
+
+    <!-- JSTL API -->
+    <dependency>
+
+      <groupId>jakarta.servlet.jsp.jstl</groupId>
+      <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+      <version>3.0.0</version>
+
+    </dependency>
+    <!-- BCrypt for hashing password -->
+    <dependency>
+      <groupId>org.mindrot</groupId>
+      <artifactId>jbcrypt</artifactId>
+      <version>0.4</version>
+    </dependency>
   </dependencies>
   <build>
-    <finalName>example</finalName>
+    <finalName>school_management</finalName>
   </build>
 </project>
