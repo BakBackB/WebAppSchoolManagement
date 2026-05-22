@@ -15,3 +15,7 @@ buildNumber.properties
 .project
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
+
+backend/src/main/webapp/css/output.css 
+
+node_modules/
