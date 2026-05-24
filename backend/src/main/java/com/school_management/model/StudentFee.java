@@ -13,6 +13,15 @@ public class StudentFee {
 
     private Student student;
 
+    
+
+    public StudentFee(int studentId, BigDecimal amount, Date dueDate, String status) {
+        this.studentId = studentId;
+        this.amount = amount;
+        this.dueDate = dueDate;
+        this.status = (status != null) ? status : "UNPAID";
+    }
+
     public int getFeeId() {
         return feeId;
     }
