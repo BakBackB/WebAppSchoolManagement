@@ -1,6 +1,7 @@
 package com.school_management.model;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class AuditLog {
     private int logId;
@@ -11,6 +12,14 @@ public class AuditLog {
     private Timestamp createdAt;
 
     private User user;
+
+    public AuditLog(int userId, String actionType, String description, String ipAddress) {
+        this.userId = userId;
+        this.actionType = actionType;
+        this.description = description;
+        this.ipAddress = ipAddress;
+        this.createdAt = Timestamp.valueOf(LocalDateTime.now());
+    }
 
     public int getLogId() {
         return logId;

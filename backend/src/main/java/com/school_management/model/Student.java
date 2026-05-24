@@ -2,11 +2,19 @@ package com.school_management.model;
 
 public class Student {
     private int studentId;
-    private String rollNo;
+    private String studentCode;
     private String studentName;
+    private String major;
     private int classId;
 
     private SchoolClass classes;
+
+    public Student(String studentCode, String studentName, String major, int classId) {
+        this.studentCode = studentCode;
+        this.studentName = studentName;
+        this.major = major;
+        this.classId = classId;
+    }
 
     public int getStudentId() {
         return studentId;
@@ -16,12 +24,12 @@ public class Student {
         this.studentId = studentId;
     }
 
-    public String getRollNo() {
-        return rollNo;
+    public String getStudentCode() {
+        return studentCode;
     }
 
-    public void setRollNo(String rollNo) {
-        this.rollNo = rollNo;
+    public void setStudentCode(String studentCode) {
+        this.studentCode = studentCode;
     }
 
     public String getStudentName() {
@@ -30,6 +38,14 @@ public class Student {
 
     public void setStudentName(String studentName) {
         this.studentName = studentName;
+    }
+
+    public String getMajor() {
+        return major;
+    }
+
+    public void setMajor(String major) {
+        this.major = major;
     }
 
     public int getClassId() {

@@ -8,6 +8,12 @@ public class SchoolClass {
 
     private Room room;
 
+    public SchoolClass(String className, String section, int roomId) {
+        this.className = className;
+        this.section = section;
+        this.roomId = roomId;
+    }
+
     public int getClassId() {
         return classId;
     }
