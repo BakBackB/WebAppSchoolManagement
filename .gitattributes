@@ -1,0 +1,6 @@
+*.css linguist-detectable=false
+*.html linguist-detectable=false
+*.js linguist-detectable=false
+*.sql linguist-detectable=false
+*.xml linguist-detectable=false
+docs/* linguist-documentation
