@@ -23,8 +23,9 @@ CREATE TABLE Rooms (
 
 CREATE TABLE Students (
   student_id INT PRIMARY KEY AUTO_INCREMENT,
-  roll_no VARCHAR(20) UNIQUE NOT NULL,
+  student_code VARCHAR(20) UNIQUE NOT NULL,
   student_name VARCHAR(100) NOT NULL,
+  major VARCHAR(50) NOT NULL,
   class_id INT NOT NULL
 );
 
