@@ -1,118 +1,184 @@
--- =========================================
--- SEED DATA FOR SCHOOL MANAGEMENT DATABASE
--- =========================================
+USE school_management;
 
 SET FOREIGN_KEY_CHECKS = 0;
 
--- =========================================
+-- =========================
 -- ROOMS
--- =========================================
-INSERT INTO Rooms (room_name, room_type)
-VALUES
-  ('A101', 'CLASSROOM'),
-  ('A102', 'CLASSROOM'),
-  ('B201', 'CLASSROOM'),
-  ('LAB01', 'LAB'),
-  ('LAB02', 'LAB');
+-- =========================
+INSERT INTO Rooms (room_name, room_type) VALUES
+('A101', 'CLASSROOM'),
+('A102', 'CLASSROOM'),
+('B201', 'CLASSROOM'),
+('LAB01', 'LAB'),
+('LAB02', 'LAB');
 
--- =========================================
+-- =========================
 -- CLASSES
--- =========================================
-INSERT INTO Classes (class_name, section, room_id)
-VALUES
-  ('Grade 10', 'A', 1),
-  ('Grade 10', 'B', 2),
-  ('Grade 11', 'A', 3),
-  ('Grade 11', 'B', 4),
-  ('Grade 12', 'A', 5);
+-- =========================
+INSERT INTO Classes (class_name, section, room_id) VALUES
+('SE1801', 'A', 1),
+('SE1802', 'A', 2),
+('AI1801', 'B', 3),
+('GD1801', 'A', 1),
+('IB1801', 'B', 2);
 
--- =========================================
+-- =========================
 -- TEACHERS
--- =========================================
-INSERT INTO Teachers (teacher_name, phone, email, salary)
-VALUES
-  ('Nguyen Van An', '0901234567', 'an.teacher@hcmiu.edu.com.vn', 1800.00),
-  ('Tran Thi Mai', '0912345678', 'mai.teacher@hcmiu.edu.com.vn', 1750.00),
-  ('Le Hoang Nam', '0923456789', 'nam.teacher@hcmiu.edu.com.vn', 1900.00),
-  ('Pham Gia Bao', '0934567890', 'bao.teacher@hcmiu.edu.com.vn', 1850.00),
-  ('Vo Minh Khang', '0945678901', 'khang.teacher@hcmiu.edu.com.vn', 2000.00);
+-- =========================
+INSERT INTO Teachers (teacher_name, phone, email, salary) VALUES
+('Nguyen Van Minh', '0901234567', 'minh.nguyen@school.edu.vn', 1800.00),
+('Tran Thi Lan', '0912345678', 'lan.tran@school.edu.vn', 2000.00),
+('Le Hoang Phuc', '0923456789', 'phuc.le@school.edu.vn', 2200.00),
+('Pham Quoc Bao', '0934567890', 'bao.pham@school.edu.vn', 2100.00),
+('Vo Thi Huong', '0945678901', 'huong.vo@school.edu.vn', 1950.00);
 
--- =========================================
+-- =========================
 -- SUBJECTS
--- =========================================
-INSERT INTO Subjects (subject_name)
-VALUES
-  ('Mathematics'),
-  ('Physics'),
-  ('Chemistry'),
-  ('English'),
-  ('Computer Science');
+-- =========================
+INSERT INTO Subjects (subject_name) VALUES
+('Database Systems'),
+('Java Web Development'),
+('Data Structures'),
+('Operating Systems'),
+('Software Engineering');
 
--- =========================================
+-- =========================
 -- STUDENTS
--- =========================================
-INSERT INTO Students (roll_no, student_name, class_id)
-VALUES
-  ('STU001', 'Nguyen Minh Phuc', 1),
-  ('STU002', 'Tran Bao Chau', 2),
-  ('STU003', 'Le Quoc Huy', 3),
-  ('STU004', 'Pham Gia Linh', 4),
-  ('STU005', 'Vo Thanh Dat', 5);
+-- =========================
+INSERT INTO Students (student_code, student_name, major, class_id) VALUES
+('SE001', 'Tran Gia Bao', 'Software Engineering', 1),
+('SE002', 'Nguyen Minh Quan', 'Software Engineering', 1),
+('SE003', 'Le Anh Khoa', 'Software Engineering', 2),
+('AI001', 'Pham Duc Huy', 'Artificial Intelligence', 3),
+('GD001', 'Vo Thanh Dat', 'Graphic Design', 4),
+('IB001', 'Nguyen Hoang Nam', 'International Business', 5),
+('SE004', 'Tran Bao Chau', 'Software Engineering', 2),
+('AI002', 'Le Minh Thu', 'Artificial Intelligence', 3),
+('GD002', 'Pham Ngoc Han', 'Graphic Design', 4),
+('IB002', 'Vo Gia Huy', 'International Business', 5);
 
--- =========================================
+-- =========================
 -- TEACHING ASSIGNMENTS
--- =========================================
-INSERT INTO TeachingAssignments (class_id, subject_id, teacher_id)
-VALUES
-  (1, 1, 1),
-  (2, 2, 2),
-  (3, 3, 3),
-  (4, 4, 4),
-  (5, 5, 5);
+-- =========================
+INSERT INTO TeachingAssignments (class_id, subject_id, teacher_id) VALUES
+(1, 1, 1),
+(1, 2, 2),
+(2, 3, 3),
+(3, 4, 4),
+(4, 5, 5);
 
--- =========================================
--- STUDENT FEES
--- =========================================
-INSERT INTO StudentFees (student_id, amount, due_date, payment_date, status)
-VALUES
-  (1, 500.00, '2026-06-01', '2026-05-20', 'PAID'),
-  (2, 500.00, '2026-06-01', NULL, 'UNPAID'),
-  (3, 550.00, '2026-06-05', '2026-05-22', 'PAID'),
-  (4, 600.00, '2026-06-10', NULL, 'UNPAID'),
-  (5, 650.00, '2026-06-15', '2026-05-21', 'PAID');
-
--- =========================================
+-- =========================
 -- CLASS SCHEDULES
--- =========================================
+-- =========================
 INSERT INTO ClassSchedules (
-  class_id,
-  subject_id,
-  room_id,
-  day_of_week,
-  start_time,
-  end_time
-)
-VALUES
-  (1, 1, 1, 'MONDAY', '08:00:00', '09:30:00'),
-  (2, 2, 2, 'TUESDAY', '09:45:00', '11:15:00'),
-  (3, 3, 3, 'WEDNESDAY', '13:00:00', '14:30:00'),
-  (4, 4, 4, 'THURSDAY', '08:00:00', '09:30:00'),
-  (5, 5, 5, 'FRIDAY', '10:00:00', '11:30:00');
+    class_id,
+    subject_id,
+    room_id,
+    day_of_week,
+    start_time,
+    end_time
+) VALUES
+(1, 1, 1, 'MONDAY', '07:00:00', '09:00:00'),
+(1, 2, 4, 'TUESDAY', '09:00:00', '11:00:00'),
+(2, 3, 2, 'WEDNESDAY', '13:00:00', '15:00:00'),
+(3, 4, 3, 'THURSDAY', '07:00:00', '09:00:00'),
+(4, 5, 1, 'FRIDAY', '15:00:00', '17:00:00');
 
--- =========================================
+-- =========================
+-- STUDENT FEES
+-- =========================
+INSERT INTO StudentFees (
+    student_id,
+    amount,
+    due_date,
+    payment_date,
+    status
+) VALUES
+(1, 500.00, '2026-06-01', '2026-05-25', 'PAID'),
+(2, 500.00, '2026-06-01', NULL, 'UNPAID'),
+(3, 550.00, '2026-06-01', '2026-05-28', 'PAID'),
+(4, 600.00, '2026-06-01', NULL, 'UNPAID'),
+(5, 450.00, '2026-06-01', '2026-05-20', 'PAID');
+
+-- =========================
+-- TEACHER PAYROLL
+-- =========================
+INSERT INTO TeacherPayroll (
+    teacher_id,
+    pay_period,
+    base_salary,
+    allowances,
+    deductions,
+    payment_date,
+    status
+) VALUES
+(1, '2026-05', 1800.00, 150.00, 50.00, '2026-05-10', 'DISBURSED'),
+(2, '2026-05', 2000.00, 200.00, 100.00, '2026-05-10', 'DISBURSED'),
+(3, '2026-05', 2200.00, 250.00, 120.00, '2026-05-10', 'PENDING'),
+(4, '2026-05', 2100.00, 180.00, 80.00, '2026-05-10', 'ON_HOLD'),
+(5, '2026-05', 1950.00, 170.00, 70.00, '2026-05-10', 'DISBURSED');
+-- =========================
 -- USERS
--- Password example:
--- admin123 / teacher123 / student123
--- Replace with real BCrypt hashes in production
--- =========================================
+-- password = 123456
+-- =========================
 INSERT INTO Users (
-  username,
-  password_hash,
-  email,
-  role_id,
-  is_active
-)
-VALUES
-  ('admin', '$2a$10$MIrjr5q6lJ9/VufBJFDScO.rL718v2An8D9pNaeiv1Y41dry6ecme', 'admin@hcmiu.edu.com.vn', 1),
-  ('teacheran', '$2a$10$xFdJZ7V8jgOv4O3rOoapLun6CocFZKj7BAcriZjTFqWT9aikRQCpa', 'an.teacher@hcmiu.edu.com.vn', 2),
-  ('studentphuc', '$2a$10$c/p4GC/cZt2B99/OPChKXe4cS892BxS/FE/ghudmuodHwdn1oe45W', 'phuc.student@hcmiu.edu.com.vn', 3);
+    username,
+    password_hash,
+    email,
+    role_id,
+    is_active
+) VALUES
+(
+    'admin',
+    '$2a$10$u8VMeafBqkuzXh43WLkLH.eaoB54nNilZOsdnGeAURpicUeTyQcpy',
+    'admin@school.edu.vn',
+    1,
+    TRUE
+),
+(
+    'teacher_minh',
+    '$2a$10$50KAf2.Xoc1e.A.lyqBmTub79lR/LwvKXrlvr8shx40cvik3G9aLS',
+    'minh.teacher@school.edu.vn',
+    2,
+    TRUE
+),
+(
+    'student_bao',
+    '$2a$10$6FbKeRuPGayM9jr.T1z2k.wbmWJtQ5cNjPsf7dDhL6LsxMbICZ6NS',
+    'bao.student@school.edu.vn',
+    3,
+    TRUE
+);
+
+SELECT u.*, r.* FROM users u LEFT JOIN roles r ON u.role_id = r.role_id WHERE u.username = 'student' AND is_active = TRUE;
+-- =========================
+-- REMEMBER TOKENS
+-- =========================
+INSERT INTO RememberTokens (
+    user_id,
+    token_hash,
+    expires_at
+) VALUES
+(1, 'tokenhash_admin_001', '2026-12-31 23:59:59'),
+(2, 'tokenhash_teacher_001', '2026-12-31 23:59:59'),
+(3, 'tokenhash_teacher_002', '2026-12-31 23:59:59'),
+(4, 'tokenhash_student_001', '2026-12-31 23:59:59'),
+(5, 'tokenhash_student_002', '2026-12-31 23:59:59');
+
+-- =========================
+-- AUDIT LOGS
+-- =========================
+INSERT INTO AuditLogs (
+    user_id,
+    action_type,
+    description,
+    ip_address
+) VALUES
+(1, 'LOGIN', 'Admin logged into system', '192.168.1.10'),
+(2, 'VIEW_SCHEDULE', 'Teacher viewed class schedule', '192.168.1.11'),
+(3, 'UPDATE_GRADE', 'Teacher updated student grade', '192.168.1.12'),
+(4, 'PAY_FEE', 'Student paid tuition fee', '192.168.1.13'),
+(5, 'LOGOUT', 'Student logged out', '192.168.1.14');
+
+SET FOREIGN_KEY_CHECKS = 1;
+SELECT * FROM Roles;

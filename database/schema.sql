@@ -87,7 +87,7 @@ CREATE TABLE
     deductions DECIMAL(10, 2) DEFAULT 0.00,
     net_amount DECIMAL(10, 2) GENERATED ALWAYS AS (base_salary + allowances - deductions) STORED,
     payment_date DATE NULL,
-    status ENUM ('DISBURSED', 'PENDING', 'ON HOLD') DEFAULT 'PENDING',
+    status ENUM ('DISBURSED', 'PENDING', 'ON_HOLD') DEFAULT 'PENDING',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
   );
@@ -108,7 +108,7 @@ CREATE TABLE
     role_id INT NOT NULL,
     is_active BOOLEAN NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    last_login TIMESTAMP NULL
   );
 
 CREATE TABLE
@@ -185,7 +185,23 @@ VALUES
     'Access to view attendance, grades, and fees'
   );
 
+SELECT *
+FROM TeacherPayroll;
 -- Re-enable foreign key checks
 SET
   FOREIGN_KEY_CHECKS = 1;
-  
+SET GLOBAL event_scheduler = ON;
+
+DELIMITER $$
+
+CREATE EVENT update_passed_paydate_event
+ON SCHEDULE EVERY 1 HOUR
+STARTS CURRENT_TIMESTAMP
+DO
+BEGIN
+    UPDATE TeacherPayroll 
+    SET status = 'ON_HOLD' 
+    WHERE payment_date < curdate(); 
+END$$
+
+DELIMITER ;
