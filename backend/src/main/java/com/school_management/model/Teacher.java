@@ -9,6 +9,10 @@ public class Teacher {
     private String email;
     private BigDecimal salary;
 
+    // No-arg constructor
+    public Teacher() {
+    }
+
     public Teacher(String teacherName, String phone, String email, BigDecimal salary) {
         this.teacherName = teacherName;
         this.phone = phone;

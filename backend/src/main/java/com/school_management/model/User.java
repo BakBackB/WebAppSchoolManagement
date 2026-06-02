@@ -7,18 +7,19 @@ public class User {
     private String username;
     private String passwordHash;
     private String email;
-    private int roleId;
     private boolean isActive;
     private Timestamp createdAt;
-    private Timestamp updatedAt;
+    private Timestamp lastLogin;
 
     private Role role;
 
     public User(String passwordHash, int roleId, String username, String email) {
         this.passwordHash = passwordHash;
-        this.roleId = roleId;
         this.username = username;
         this.email = email;
+    }
+
+    public User() {
     }
 
     public int getUserId() {
@@ -53,14 +54,6 @@ public class User {
         this.email = email;
     }
 
-    public int getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(int roleId) {
-        this.roleId = roleId;
-    }
-
     public boolean isActive() {
         return isActive;
     }
@@ -77,12 +70,12 @@ public class User {
         this.createdAt = createdAt;
     }
 
-    public Timestamp getUpdatedAt() {
-        return updatedAt;
+    public Timestamp getLastLogin() {
+        return lastLogin;
     }
 
-    public void setUpdatedAt(Timestamp updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setLastLogin(Timestamp lastLogin) {
+        this.lastLogin = lastLogin;
     }
 
     public Role getRole() {
@@ -91,5 +84,29 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public boolean isAdmin() {
+        return "admin".equalsIgnoreCase(this.role.getRoleName());
+    }
+
+    public boolean isTeacher() {
+        return "teacher".equalsIgnoreCase(this.role.getRoleName());
+    }
+    public boolean isStudent() {
+        return "student".equalsIgnoreCase(this.role.getRoleName());
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", isActive=" + isActive +
+                ", createdAt=" + createdAt +
+                ", lastLogin=" + lastLogin +
+                ", role=" + role.getRoleName() +
+                '}';
     }
 }
