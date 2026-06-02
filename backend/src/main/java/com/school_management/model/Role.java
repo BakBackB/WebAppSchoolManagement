@@ -5,6 +5,9 @@ public class Role {
     private String roleName;
     private String description;
 
+    public Role() {
+    }
+    
     public Role(int roleId, String roleName, String description) {
         this.roleId = roleId;
         this.roleName = roleName;

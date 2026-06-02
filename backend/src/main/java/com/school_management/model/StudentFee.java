@@ -1,5 +1,6 @@
 package com.school_management.model;
 
+import com.school_management.dto.FeeStatus;
 import java.math.BigDecimal;
 import java.sql.Date;
 
@@ -9,17 +10,17 @@ public class StudentFee {
     private BigDecimal amount;
     private Date dueDate;
     private Date paymentDate;
-    private String status;
+    private FeeStatus status;
 
     private Student student;
 
     
 
-    public StudentFee(int studentId, BigDecimal amount, Date dueDate, String status) {
+    public StudentFee(int studentId, BigDecimal amount, Date dueDate, FeeStatus status) {
         this.studentId = studentId;
         this.amount = amount;
         this.dueDate = dueDate;
-        this.status = (status != null) ? status : "UNPAID";
+        this.status = status;
     }
 
     public int getFeeId() {
@@ -62,11 +63,11 @@ public class StudentFee {
         this.paymentDate = paymentDate;
     }
 
-    public String getStatus() {
+    public FeeStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(FeeStatus status) {
         this.status = status;
     }
 
