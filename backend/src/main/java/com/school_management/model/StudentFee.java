@@ -1,12 +1,12 @@
 package com.school_management.model;
 
-import com.school_management.dto.FeeStatus;
 import java.math.BigDecimal;
 import java.sql.Date;
 
+import com.school_management.dto.FeeStatus;
+
 public class StudentFee {
     private int feeId;
-    private int studentId;
     private BigDecimal amount;
     private Date dueDate;
     private Date paymentDate;
@@ -14,10 +14,11 @@ public class StudentFee {
 
     private Student student;
 
-    
+    public StudentFee() {
+        this.status = FeeStatus.UNPAID;
+    }
 
     public StudentFee(int studentId, BigDecimal amount, Date dueDate, FeeStatus status) {
-        this.studentId = studentId;
         this.amount = amount;
         this.dueDate = dueDate;
         this.status = status;
@@ -29,14 +30,6 @@ public class StudentFee {
 
     public void setFeeId(int feeId) {
         this.feeId = feeId;
-    }
-
-    public int getStudentId() {
-        return studentId;
-    }
-
-    public void setStudentId(int studentId) {
-        this.studentId = studentId;
     }
 
     public BigDecimal getAmount() {
@@ -77,5 +70,17 @@ public class StudentFee {
 
     public void setStudent(Student student) {
         this.student = student;
+    }
+
+    @Override
+    public String toString() {
+        return "StudentFee{" +
+                "feeId=" + feeId +
+                ", studentId=" + student.getStudentId() +
+                ", amount=" + amount +
+                ", dueDate=" + dueDate +
+                ", paymentDate=" + paymentDate +
+                ", status=" + status +
+                '}';
     }
 }

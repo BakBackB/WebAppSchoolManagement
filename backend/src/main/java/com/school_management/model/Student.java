@@ -5,15 +5,19 @@ public class Student {
     private String studentCode;
     private String studentName;
     private String major;
-    private int classId;
+    private String email;
 
     private SchoolClass classes;
+    private User user;
 
-    public Student(String studentCode, String studentName, String major, int classId) {
+    public Student(String studentCode, String studentName, String major, String email) {
         this.studentCode = studentCode;
         this.studentName = studentName;
         this.major = major;
-        this.classId = classId;
+        this.email = email;
+    }
+
+    public Student() {
     }
 
     public int getStudentId() {
@@ -48,19 +52,27 @@ public class Student {
         this.major = major;
     }
 
-    public int getClassId() {
-        return classId;
+    public String getEmail() {
+        return email;
     }
 
-    public void setClassId(int classId) {
-        this.classId = classId;
+    public void setEmail(String email) {
+        this.email = email;
     }
-
+    
     public SchoolClass getClasses() {
         return classes;
     }
 
     public void setClasses(SchoolClass classes) {
         this.classes = classes;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
