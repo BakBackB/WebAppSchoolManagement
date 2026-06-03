@@ -24,7 +24,7 @@ public class UserDAO {
 
     private static final String DB_URL = "jdbc:mysql://localhost:3306/school_management?useSSL=false";
     private static final String DB_USER = "root";
-    private static final String DB_PASS = "Daigia_minhphuc1511";
+    private static final String DB_PASS = "yourpassword";
     private static final String SQL_AUTH = "SELECT u.*, r.* FROM users u LEFT JOIN roles r ON u.role_id = r.role_id WHERE u.username = ? AND u.is_active = 1";
     private static final String SQL_UPDATE_LOGIN = "UPDATE users SET last_login = NOW() WHERE user_id = ?";
     private static final String SQL_BY_ID = "SELECT u.*, r.* FROM users u LEFT JOIN roles r ON u.role_id = r.role_id WHERE u.user_id = ?";
