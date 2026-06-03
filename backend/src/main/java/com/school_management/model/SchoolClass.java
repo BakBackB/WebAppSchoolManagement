@@ -4,14 +4,15 @@ public class SchoolClass {
     private int classId;
     private String className;
     private String section;
-    private int roomId;
 
     private Room room;
 
-    public SchoolClass(String className, String section, int roomId) {
+    public SchoolClass() {
+    }
+
+    public SchoolClass(String className, String section) {
         this.className = className;
         this.section = section;
-        this.roomId = roomId;
     }
 
     public int getClassId() {
@@ -36,14 +37,6 @@ public class SchoolClass {
 
     public void setSection(String section) {
         this.section = section;
-    }
-
-    public int getRoomId() {
-        return roomId;
-    }
-
-    public void setRoomId(int roomId) {
-        this.roomId = roomId;
     }
 
     public Room getRoom() {

@@ -44,9 +44,13 @@ public class LogoutController extends HttpServlet {
             throws ServletException, IOException {
         // getSession(false) returns null if no session exists — avoids creating one
         HttpSession session = request.getSession(false);
+        if(session == null) {
+            response.sendRedirect(request.getContextPath() + "/login?message=Session+ended.+You+have+been+logged+out");
+            return;
+        }
         String sessionLogOutToken = (String) session.getAttribute("csrfToken");
         String requestLogOutToken = request.getParameter("csrfToken");
-        String ipAddress = request.getRemoteAddr(); // Get ip address for logging user's action
+        // String ipAddress = request.getRemoteAddr(); // Get ip address for logging user's action
         // 1. Delete from Database
         String tokenHash = null;
         Cookie[] cookies = request.getCookies();

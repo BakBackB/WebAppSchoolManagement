@@ -27,7 +27,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path>
                     </svg>
                 </div>
-                <h1 class="text-3xl font-bold tracking-tight text-gray-900 mb-1">Welcome Back</h1>
+                <h1 class="text-3xl font-bold tracking-tight text-gray-900 mb-1">Welcome Hero</h1>
                 <p class="text-sm text-gray-600 font-medium">School Management System</p>
             </div>
 
@@ -77,6 +77,9 @@
                     Sign In
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                 </button>
+                <div class="text-center mt-4 text-sm">
+                    Didn't have an account? <a href="register" class="text-indigo-600 hover:text-indigo-700 font-semibold ">Sign up</a>
+                </div>
             </form>
 
             <%-- Demo Credentials Box --%>

@@ -5,8 +5,6 @@
 package com.school_management.filter;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 
 import com.school_management.model.User;
 
@@ -22,18 +20,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 /**
- * AdminFilter — applied only to /student requests. Certain actions (create,
- * update, delete) require the admin role. Read-only actions (list, view,
- * search) are available to all authenticated users.
+ * AuthFilter — intercepts every request. Requests to public paths are allowed
+ * through unconditionally. Requests to protected paths require an authenticated
+ * session.
  */
-@WebFilter(filterName = "TeacherFilter", urlPatterns = { "/financial-statistics"})
-public class TeacherFilter implements Filter {
-    // private AuditLogger auditLogger = new AuditLogger();
-    // private final String UNAUTHORIZED = "User try to: ";
-    // Write actions that mutate data — kept for potential future audit logging.
-    private static final List<String> WRITE_ACTIONS = Arrays.asList(
-            "generate", "edit", "update", "delete", "confirmDelete");
-
+@WebFilter(filterName = "StudentFilter", urlPatterns = {"/payment"})
+public class StudentFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
@@ -49,29 +41,32 @@ public class TeacherFilter implements Filter {
             return;
         }
 
-        if (user.isAdmin() || user.isTeacher()) {
-            // Admin or teacher passes through unconditionally
+        if (user.isAdmin()) {
+            httpResp.sendRedirect(httpReq.getContextPath() + "/list-payments");
+        }
+        if (user.isStudent()) {
+            // Student passes through unconditionally
             chain.doFilter(request, response);
             return;
         }
 
         // Non-admin — block with a meaningful redirect
         String requestPath = httpReq.getServletPath(); // e.g. "/payroll" or "/financial-statistics"
-        String errorMsg = "Access+denied:+Admin+or+Teacher+privileges+required";
+        String errorMsg = "Access+denied:+Admin+or+Student+privileges+required";
 
-        if (user.isStudent()) {
-            // Students get redirected to their own landing page
-            httpResp.sendRedirect(httpReq.getContextPath() + "/payment?error=" + errorMsg);
+        if (user.isTeacher()) {
+            // Teachers get redirected to their own landing page
+            httpResp.sendRedirect(httpReq.getContextPath() + "/financial-statistics?error=" + errorMsg);
         }
     }
 
     @Override
     public void init(FilterConfig filterConfig) {
-        System.out.println("[AdminFilter] initialized");
+        System.out.println("[StudentFilter] initialized");
     }
 
     @Override
     public void destroy() {
-        System.out.println("[AdminFilter] destroyed");
+        System.out.println("[StudentFilter] destroyed");
     }
 }

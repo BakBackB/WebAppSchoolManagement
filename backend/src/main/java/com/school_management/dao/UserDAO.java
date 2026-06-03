@@ -29,6 +29,12 @@ public class UserDAO {
     private static final String STORE_TOKEN = "INSERT INTO RememberTokens (user_id, token_hash, expires_at) VALUES (?, ?, ?)";
     private static final String VALIDATE_TOKEN = "SELECT user_id FROM RememberTokens WHERE token_hash=? AND expires_at > NOW()";
     private static final String DELETE_TOKEN = "DELETE FROM RememberTokens WHERE token_hash = ?";
+    private static final String INSERT_USER = "INSERT INTO users (username, password_hash, email, role_id, is_active) VALUES (?, ?, ?, ?, ?)";
+    private static final String SELECT_USER_BY_USERNAME = "SELECT u.*, r.* FROM users u LEFT JOIN roles r ON u.role_id = r.role_id WHERE u.username = ?";
+    private static final String SQL_CHECK_USERNAME = "SELECT COUNT(*) FROM users WHERE username = ?";
+    private static final String SQL_CHECK_EMAIL = "SELECT COUNT(*) FROM users WHERE email = ?";
+    
+    private static final String SQL_CHECK_TEACHER_CODE = "SELECT COUNT(*) FROM users WHERE teacher_code = ?";
 
    private Connection getConnection() throws SQLException {
         // Calls your central config class directly from DatabaseConfig, no need to change username and password on every DAO class
@@ -56,7 +62,7 @@ public class UserDAO {
                     // Bcrypt.checkpw extracts the salt from the hash automatically
                     if (BCrypt.checkpw(password, storedHash)) {
                         User user = extractUserFromResultSet(rs);
-                        updateLastLogin(user.getUserId()); //update the last time user logged in
+                        updateLastLogin(user.getUserId()); // update the last time user logged in
                         return user; // authentication success
                     }
                 }
@@ -64,7 +70,7 @@ public class UserDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null; //authentication failed
+        return null; // authentication failed
     }
 
     public boolean storeTokenToDatabase(int userId, long offsetTime, String tokenHash) throws SQLException {
@@ -96,7 +102,7 @@ public class UserDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null; //validation failed
+        return null; // validation failed
     }
 
     private void updateLastLogin(int userId) {
@@ -122,6 +128,61 @@ public class UserDAO {
         return null;
     }
 
+    public User getUserByUsername(String username) throws SQLException {
+        try (Connection conn = getConnection();
+                PreparedStatement stmt = conn.prepareStatement(SELECT_USER_BY_USERNAME)) {
+            stmt.setString(1, username);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return extractUserFromResultSet(rs);
+                }
+            }
+        }
+        return null;
+    }
+
+    // ── Insert
+    public boolean insertUser(User user) throws SQLException {
+        try (Connection conn = getConnection();
+                PreparedStatement stmt = conn.prepareStatement(INSERT_USER)) {
+            stmt.setString(1, user.getUsername());
+            stmt.setString(2, user.getPasswordHash());
+            stmt.setString(3, user.getEmail());
+            stmt.setInt(4, user.getRole().getRoleId());
+            stmt.setBoolean(5, true);
+            return stmt.executeUpdate() > 0;
+        }
+    }
+
+    public boolean isUsernameExists(String username) throws SQLException {
+        try (Connection conn = getConnection();
+                PreparedStatement stmt = conn.prepareStatement(SQL_CHECK_USERNAME)) {
+            stmt.setString(1, username);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Checks if an email already exists in the database.
+     */
+    public boolean isEmailExists(String email) throws SQLException {
+        try (Connection conn = getConnection();
+                PreparedStatement stmt = conn.prepareStatement(SQL_CHECK_EMAIL)) {
+            stmt.setString(1, email);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        }
+        return false;
+    }
+
     private User extractUserFromResultSet(ResultSet rs) throws SQLException {
         User u = new User();
 
@@ -130,7 +191,7 @@ public class UserDAO {
         role.setRoleName(rs.getString("role_name"));
         role.setDescription(rs.getString("description"));
         u.setRole(role);
-        
+
         u.setUserId(rs.getInt("user_id"));
         u.setUsername(rs.getString("username"));
         u.setPasswordHash(rs.getString("password_hash"));
@@ -143,7 +204,7 @@ public class UserDAO {
 
     public static void main(String[] args) {
         UserDAO userDAO = new UserDAO();
-        User user = userDAO.authenticate("student_bao", "123student");
+        User user = userDAO.validateRememberToken("b25eeacb-1e0e-4f07-bca7-1d2c312eca2e");
         System.out.println(user.toString());
     }
 }

@@ -5,10 +5,12 @@ USE school_management;
 CREATE TABLE
   Teachers (
     teacher_id INT PRIMARY KEY AUTO_INCREMENT,
+    teacher_code VARCHAR(20) UNIQUE NOT NULL,
     teacher_name VARCHAR(100) NOT NULL,
     phone VARCHAR(15),
     email VARCHAR(100),
-    salary DECIMAL(10, 2) NOT NULL
+    salary DECIMAL(10, 2) NOT NULL,
+    user_id INT UNIQUE NULL
   );
 
 CREATE TABLE
@@ -32,7 +34,9 @@ CREATE TABLE
     student_code VARCHAR(20) UNIQUE NOT NULL,
     student_name VARCHAR(100) NOT NULL,
     major VARCHAR(50) NOT NULL,
-    class_id INT NOT NULL
+    email VARCHAR(100),
+    class_id INT NOT NULL,
+    user_id INT NULL
   );
 
 CREATE TABLE
@@ -76,6 +80,8 @@ CREATE TABLE
     payment_date DATE,
     status ENUM ('PAID', 'UNPAID') DEFAULT 'UNPAID'
   );
+  SELECT * FROM StudentFees;
+  
 
 CREATE TABLE
   TeacherPayroll (
@@ -144,7 +150,13 @@ CREATE INDEX idx_payroll_status ON TeacherPayroll (status);
 
 CREATE INDEX idx_expires ON RememberTokens (expires_at);
 
+ALTER TABLE Classes ADD FOREIGN KEY (room_id) REFERENCES Rooms (room_id) ON DELETE SET NULL;
+
+ALTER TABLE Teachers ADD FOREIGN KEY (user_id) REFERENCES Users (user_id) ON DELETE SET NULL;
+
 ALTER TABLE Students ADD FOREIGN KEY (class_id) REFERENCES Classes (class_id) ON DELETE CASCADE;
+
+ALTER TABLE Students ADD FOREIGN KEY (user_id) REFERENCES Users (user_id) ON DELETE SET NULL;
 
 ALTER TABLE TeachingAssignments ADD FOREIGN KEY (class_id) REFERENCES Classes (class_id);
 
@@ -192,6 +204,8 @@ SET
   FOREIGN_KEY_CHECKS = 1;
 SET GLOBAL event_scheduler = ON;
 
+
+-- EVENT TO AUTO UPDATE STATUS FOR PAYROLL
 DELIMITER $$
 
 CREATE EVENT update_passed_paydate_event
@@ -201,7 +215,9 @@ DO
 BEGIN
     UPDATE TeacherPayroll 
     SET status = 'ON_HOLD' 
-    WHERE payment_date < curdate(); 
+    WHERE payment_date < curdate() AND status = 'PENDING'; 
 END$$
 
 DELIMITER ;
+
+
