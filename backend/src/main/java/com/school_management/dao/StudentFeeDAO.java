@@ -17,7 +17,7 @@ public class StudentFeeDAO {
     // Database configuration
     private static final String DB_URL = "jdbc:mysql://localhost:3306/school_management?useSSL=false";
     private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "Daigia_minhphuc1511"; // CHANGE THIS
+    private static final String DB_PASSWORD = "yourpassword"; // CHANGE THIS
     // SQL queries
     private static final String SELECT_ALL = "SELECT sf.*, s.student_code, s.student_name, s.major, s.class_id " +
             "FROM StudentFees sf " +
