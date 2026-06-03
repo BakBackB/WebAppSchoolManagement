@@ -5,6 +5,7 @@
 package com.school_management.filter;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,22 +29,22 @@ import jakarta.servlet.http.HttpSession;
  * through unconditionally. Requests to protected paths require an authenticated
  * session.
  */
-@WebFilter(filterName = "AuthFilter", urlPatterns = {"/*"})
+@WebFilter(filterName = "AuthFilter", urlPatterns = { "/*" })
 public class AuthFilter implements Filter {
     // Paths that must be accessible without a session
     private UserDAO userDAO = new UserDAO();
     private static final List<String> PUBLIC_PATHS = Arrays.asList(
+            "/register",
             "/login",
-            "/logout"
-    );
+            "/logout");
     // File extensions that must never require authentication
     private static final List<String> PUBLIC_EXTENSIONS = Arrays.asList(
-            ".css", ".js", ".png", ".jpg", ".jpeg", ".gif", ".ico", ".woff", ".woff2"
-    );
+            ".css", ".js", ".png", ".jpg", ".jpeg", ".gif", ".ico", ".woff", ".woff2");
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
+        System.out.println("[" + LocalDateTime.now() + "]" + "[AuthFilter used here]");
         HttpServletRequest httpReq = (HttpServletRequest) request;
         HttpServletResponse httpResp = (HttpServletResponse) response;
         // Strip context path to get the path within the application
@@ -61,22 +62,31 @@ public class AuthFilter implements Filter {
         // If not logged in, or session null, or user null, then
         if (!loggedIn) {
             Cookie[] cookies = httpReq.getCookies();
-            String tokenHash = null;
+            String rememberTokenHash = null;
+            String csrfTokenHash = null;
             if (cookies != null) {
                 for (Cookie c : cookies) {
                     if ("remember_token".equals(c.getName())) {
-                        tokenHash = c.getValue();
+                        rememberTokenHash = c.getValue();
+                        break;
+                    }
+                }
+                for (Cookie c : cookies) {
+                    if ("csrf_token".equals(c.getName())) {
+                        csrfTokenHash = c.getValue();
                         break;
                     }
                 }
             }
-            if (tokenHash != null) /*If the user has clicked "Remember Me" before, then*/ {
-                User user = userDAO.validateRememberToken(tokenHash); // Logic: SELECT user_id FROM RememberTokens WHERE token=? AND expires_at > NOW()
+            if (rememberTokenHash != null) /* If the user has clicked "Remember Me" before, then */ {
+                User user = userDAO.validateRememberToken(rememberTokenHash); // Logic: SELECT user_id FROM
+                                                                              // RememberTokens WHERE
+                // token=? AND expires_at > NOW()
                 if (user != null) {
                     // Auto-populate session
                     httpReq.getSession().setAttribute("user", user);
                     httpReq.getSession().setAttribute("role", user.getRole().getRoleName());
-                    chain.doFilter(request, response);
+                    redirectRoleBased(user, httpResp, contextPath);
                 } else {
                     httpResp.sendRedirect(contextPath + "/login");
                 }
@@ -85,7 +95,7 @@ public class AuthFilter implements Filter {
                 // redirected back after a successful login (optional enhancement)
                 httpResp.sendRedirect(contextPath + "/login");
             }
-            
+
         } else {
             chain.doFilter(request, response);
         }
@@ -105,6 +115,16 @@ public class AuthFilter implements Filter {
             }
         }
         return false;
+    }
+
+    private void redirectRoleBased(User user, HttpServletResponse httpResp, String contextPath) throws IOException {
+        if (user.isAdmin()) {
+            httpResp.sendRedirect(contextPath + "/payroll");
+        } else if (user.isTeacher()) {
+            httpResp.sendRedirect(contextPath + "/financial-statistics");
+        } else {
+            httpResp.sendRedirect(contextPath + "/payment");
+        }
     }
 
     @Override

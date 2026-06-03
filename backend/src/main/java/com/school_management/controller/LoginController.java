@@ -29,8 +29,10 @@ public class LoginController extends HttpServlet {
     private UserDAO userDAO;
     // private LoginAttemptTracker loginAttemptTracker;
     // private AuditLogger auditLogger;
-    // private final String LOGIN_SUCCESS = "User logged in successfully"; // log for successful login
-    // private final String LOGIN_FAILURE = "User unsuccessfully log in"; // log for unsuccessful login
+    // private final String LOGIN_SUCCESS = "User logged in successfully"; // log
+    // for successful login
+    // private final String LOGIN_FAILURE = "User unsuccessfully log in"; // log for
+    // unsuccessful login
 
     @Override
     public void init() {
@@ -44,12 +46,13 @@ public class LoginController extends HttpServlet {
      * authenticated session, skip the form and redirect.
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         // HttpSession session = request.getSession(false);
 
         // if (session != null && session.getAttribute("user") != null) {
-        //     response.sendRedirect(request.getContextPath() + "/financial-statistic.jsp");
-        //     return;
+        // response.sendRedirect(request.getContextPath() + "/financial-statistic.jsp");
+        // return;
         // }
 
         request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
@@ -62,90 +65,94 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       String username = request.getParameter("username");
-       String password = request.getParameter("password");
-    //    String ipAddress = request.getRemoteAddr(); // Get ip address for logging user's action
-       // Server-side validation — never rely on the browser alone
-       if (username == null || username.isBlank()
-               || password == null || password.isBlank()) {
-           request.setAttribute("error", "Username and password are required");
-           request.setAttribute("username", username); // pre-fill username field
-           request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
-           return;
-       }
-    //    if (loginAttemptTracker.isLocked(username)) {
-    //        request.setAttribute("error", "Account locked. Please try again in 15 minutes.");
-    //        request.setAttribute("username", username); // pre-fill username field
-    //        request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
-    //        return;
-    //    }
-       User user = userDAO.authenticate(username.trim(), password);
-       System.out.println(user);
-       // After successful authentication
-       if (user != null) {
-           // Get parameter of RememberMe
-           String rememberMe = request.getParameter("remember");
-           // Log successful action
-        //    log(user.getId(), "LOGIN_SUCCESS", LOGIN_SUCCESS, ipAddress);
-           // Reset counter attemps for login limit
-        //    loginAttemptTracker.resetAttempts(username);
-           // Check if rememberMe is on
-           if ("on".equals(rememberMe)) {
-               String tokenHash = UUID.randomUUID().toString();
-               long thirtyDaysInSec = 30L * 24 * 60 * 60;
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        long thirtyDaysInSec = 30L * 24 * 60 * 60;
+        // String ipAddress = request.getRemoteAddr(); // Get ip address for logging
+        // user's action
+        // Server-side validation — never rely on the browser alone
+        if (username == null || username.isBlank()
+                || password == null || password.isBlank()) {
+            request.setAttribute("error", "Username and password are required");
+            request.setAttribute("username", username); // pre-fill username field
+            request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
+            return;
+        }
+        // if (loginAttemptTracker.isLocked(username)) {
+        // request.setAttribute("error", "Account locked. Please try again in 15
+        // minutes.");
+        // request.setAttribute("username", username); // pre-fill username field
+        // request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request,
+        // response);
+        // return;
+        // }
+        User user = userDAO.authenticate(username.trim(), password);
+        
+        // After successful authentication
+        if (user != null) {
+            // Get parameter of RememberMe
+            String rememberMe = request.getParameter("remember");
+            // Log successful action
+            // log(user.getId(), "LOGIN_SUCCESS", LOGIN_SUCCESS, ipAddress);
+            // Reset counter attemps for login limit
+            // loginAttemptTracker.resetAttempts(username);
+            // Check if rememberMe is on
+            if ("on".equals(rememberMe)) {
+                String tokenHash = UUID.randomUUID().toString();
 
-               // 1. Store in Database, notice expires time is assigned in UserDAO's function
-               try {
-                   userDAO.storeTokenToDatabase(user.getUserId(), thirtyDaysInSec, tokenHash);
-               } catch (SQLException e) {
-                   e.printStackTrace();
-               }
-               // 2. Store in Cookie
-               Cookie cookie = new Cookie("remember_token", tokenHash);
-               cookie.setMaxAge((int) thirtyDaysInSec);
-               cookie.setHttpOnly(true);
-               cookie.setPath("/");
-               response.addCookie(cookie);
+                // 1. Store in Database, notice expires time is assigned in UserDAO's function
+                try {
+                    userDAO.storeTokenToDatabase(user.getUserId(), thirtyDaysInSec, tokenHash);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                // 2. Store in Cookie
+                Cookie cookie = new Cookie("remember_token", tokenHash);
+                cookie.setMaxAge((int) thirtyDaysInSec);
+                cookie.setHttpOnly(true);
+                cookie.setPath("/");
+                response.addCookie(cookie);
 
-               // --- Session fixation protection ---
-               // If a session exists from before login (anonymous browsing),
-               // destroy it so the attacker cannot reuse the pre-login session ID.
-               HttpSession oldSession = request.getSession(false);
-               if (oldSession != null) {
-                   oldSession.invalidate();
-               }
-           }
-           // Create a brand-new session with a fresh, unpredictable ID
-           HttpSession session = request.getSession(true);
-           String csrfToken = UUID.randomUUID().toString();
-           session.setAttribute("user", user);
-           session.setAttribute("role", user.getRole().getRoleName());
-           session.setAttribute("fullName", user.getUsername());
-           session.setAttribute("csrfToken", csrfToken);
-           session.setMaxInactiveInterval(5 * 60); // 5 minutes of inactivity
-           // Role-based redirect
-           String redirect = null; 
-           if(user.isAdmin()) {
-               redirect = "/payroll";
-           } else if(user.isTeacher()) {
-               redirect = "/financial-statistics";
-           } else if(user.isStudent()) {
-               redirect = "/payment";
-           }
-           response.sendRedirect(request.getContextPath() + redirect);
-       } else {
-           // Authentication failed — do not say whether username or password was wrong
-        //    loginAttemptTracker.recordFailedAttempt(username);
-           // Log successful action
-        //    log(null, "LOGIN_FAILURE", LOGIN_FAILURE, ipAddress);
-           request.setAttribute("error", "Invalid username or password");
-           request.setAttribute("username", username); // pre-fill username field
-           request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
-       }
-   }
-//
-//    private void log(Integer id, String actionType, String description, String ipAddress) {
-//        AuditLog log = new AuditLog(id, actionType, description, ipAddress);
-//        auditLogger.log(log);
+                // --- Session fixation protection ---
+                // If a session exists from before login (anonymous browsing),
+                // destroy it so the attacker cannot reuse the pre-login session ID.
+                HttpSession oldSession = request.getSession(false);
+                if (oldSession != null) {
+                    oldSession.invalidate();
+                }
+            }
+            // Create a brand-new session with a fresh, unpredictable ID
+            HttpSession session = request.getSession(true);
+            String csrfToken = UUID.randomUUID().toString();
+            session.setAttribute("user", user);
+            session.setAttribute("role", user.getRole().getRoleName());
+            session.setAttribute("fullName", user.getUsername());
+            session.setAttribute("csrfToken", csrfToken);
+            session.setMaxInactiveInterval(30 * 60); // 30 minutes of inactivity
+            // Role-based redirect
+            String redirect = null;
+            if (user.isAdmin()) {
+                redirect = "/payroll";
+            } else if (user.isTeacher()) {
+                redirect = "/financial-statistics";
+            } else if (user.isStudent()) {
+                redirect = "/payment";
+            }
+            response.sendRedirect(request.getContextPath() + redirect);
+        } else {
+            // Authentication failed — do not say whether username or password was wrong
+            // loginAttemptTracker.recordFailedAttempt(username);
+            // Log successful action
+            // log(null, "LOGIN_FAILURE", LOGIN_FAILURE, ipAddress);
+            request.setAttribute("error", "Invalid username or password");
+            request.setAttribute("username", username); // pre-fill username field
+            request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
+        }
+    }
+    //
+    // private void log(Integer id, String actionType, String description, String
+    // ipAddress) {
+    // AuditLog log = new AuditLog(id, actionType, description, ipAddress);
+    // auditLogger.log(log);
     // }
 }

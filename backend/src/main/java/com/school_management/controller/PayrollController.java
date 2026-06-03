@@ -151,7 +151,7 @@ public class PayrollController extends HttpServlet {
 
     private void confirmDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
-        Integer payrollId = Integer.parseInt(request.getParameter("payrollId"));
+        int payrollId = Integer.parseInt(request.getParameter("payrollId"));
         TeacherPayroll teacherPayroll = teacherPayrollDAO.getPayrollById(payrollId);
         String period = teacherPayroll.getPayPeriod();
         request.setAttribute("payroll", teacherPayroll);
@@ -161,7 +161,7 @@ public class PayrollController extends HttpServlet {
 
     private void showEditForm(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, ServletException, IOException {
-        Integer payrollId = Integer.parseInt(request.getParameter("payrollId"));
+        int payrollId = Integer.parseInt(request.getParameter("payrollId"));
         TeacherPayroll teacherPayroll = teacherPayrollDAO.getPayrollById(payrollId);
         request.setAttribute("payroll", teacherPayroll);
         request.setAttribute("period", teacherPayroll.getPayPeriod());
@@ -170,9 +170,9 @@ public class PayrollController extends HttpServlet {
 
     private void updatePayroll(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
-        if (!validatePayrollForm(request)) {
+        if (!validateForm(request)) {
             // Validation failed
-            Integer payrollId = Integer.parseInt(request.getParameter("payrollId"));
+            int payrollId = Integer.parseInt(request.getParameter("payrollId"));
             TeacherPayroll teacherPayroll = teacherPayrollDAO.getPayrollById(payrollId);
 
             request.setAttribute("payroll", teacherPayroll);
@@ -181,7 +181,7 @@ public class PayrollController extends HttpServlet {
             return;
         }
 
-        Integer payrollId = Integer.parseInt(request.getParameter("payrollId"));
+        int payrollId = Integer.parseInt(request.getParameter("payrollId"));
         String period = request.getParameter("period");
         String baseSalary = request.getParameter("baseSalary");
         String allowances = request.getParameter("allowances");
@@ -193,7 +193,7 @@ public class PayrollController extends HttpServlet {
         response.sendRedirect("payroll?period=" + period);
     }
 
-    private boolean validatePayrollForm(HttpServletRequest request) {
+    private boolean validateForm(HttpServletRequest request) {
         boolean isValid = true;
 
         String baseSalary = request.getParameter("baseSalary");

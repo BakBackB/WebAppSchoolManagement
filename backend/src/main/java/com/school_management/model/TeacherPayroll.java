@@ -8,7 +8,7 @@ import com.school_management.dto.PayrollStatus;
 
 public class TeacherPayroll {
 
-    private Integer payrollId;
+    private int payrollId;
     private Teacher teacher;
     private String payPeriod; // Format: "MM-YYYY"
     private BigDecimal baseSalary;
@@ -22,12 +22,12 @@ public class TeacherPayroll {
 
     // --- Constructors ---
     public TeacherPayroll() {
-        // Khởi tạo giá trị mặc định để tránh lỗi NullPointerException khi tính toán
+        // Not letting NullPointerException happens
         this.allowances = BigDecimal.ZERO;
         this.deductions = BigDecimal.ZERO;
         this.status = PayrollStatus.PENDING;
     }
-    public TeacherPayroll(Integer payrollId, String payPeriod, String baseSalary, String allowances, String deductions, PayrollStatus status) {
+    public TeacherPayroll(int payrollId, String payPeriod, String baseSalary, String allowances, String deductions, PayrollStatus status) {
         this.payrollId = payrollId;
         this.payPeriod = payPeriod;
         this.baseSalary = new BigDecimal(baseSalary);
@@ -35,7 +35,7 @@ public class TeacherPayroll {
         this.deductions = new BigDecimal(deductions);
         this.status = status;
     }
-    public TeacherPayroll(Integer payrollId, Teacher teacher, String payPeriod, BigDecimal baseSalary,
+    public TeacherPayroll(int payrollId, Teacher teacher, String payPeriod, BigDecimal baseSalary,
             BigDecimal allowances, BigDecimal deductions, BigDecimal netAmount,
             Date paymentDate, PayrollStatus status) {
         this.payrollId = payrollId;
@@ -50,11 +50,11 @@ public class TeacherPayroll {
     }
 
     // --- Getters and Setters ---
-    public Integer getPayrollId() {
+    public int getPayrollId() {
         return payrollId;
     }
 
-    public void setPayrollId(Integer payrollId) {
+    public void setPayrollId(int payrollId) {
         this.payrollId = payrollId;
     }
 
