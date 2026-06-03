@@ -15,7 +15,7 @@ public class TeacherDAO {
     // Database configuration
     private static final String DB_URL = "jdbc:mysql://localhost:3306/school_management?useSSL=false";
     private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "Daigia_minhphuc1511"; // CHANGE THIS
+    private static final String DB_PASSWORD = "yourpassword"; // CHANGE THIS
     // SQL queries
     private static final String SELECT_ALL = "SELECT * FROM Teachers";
     private static final String SELECT_ALL_TEACHER_ID = "SELECT teacher_id FROM Teachers";
