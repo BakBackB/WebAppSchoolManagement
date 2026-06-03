@@ -33,7 +33,10 @@
                         <h1 class="text-2xl font-bold tracking-tight">Finanncial Statistics</h1>
                         <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-lg text-xs font-medium">${currentTime}</span>
                     </div>
-                    <a href="financial-statistics" class="bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 px-3 py-1 rounded-lg text-sm hover:bg-gray-50 transition duration-300 ease-in-out px-4 py-2 shadow-sm">Payroll Management</a>                               
+                    <div>
+                        <a href="financial-statistics" class="bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 px-3 py-1 rounded-lg text-sm hover:bg-gray-50 transition duration-300 ease-in-out px-4 py-2 shadow-sm">Payroll Management</a>                              
+                        <a href="payment" class="bg-yellow-500/10 text-yellow-400 border border-yellow-500/20 px-3 py-1 rounded-lg text-sm hover:bg-gray-50 transition duration-300 ease-in-out px-4 py-2 shadow-sm">Fee Payment Management</a>                                
+                    </div>
                 </div>
                 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
