@@ -16,7 +16,7 @@ public class StudentDAO {
     // Database configuration
     private static final String DB_URL = "jdbc:mysql://localhost:3306/school_management?useSSL=false";
     private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "Daigia_minhphuc1511"; // CHANGE THIS
+    private static final String DB_PASSWORD = "yourpassword"; // CHANGE THIS
     // SQL queries
     private static final String SELECT_ALL = "SELECT s.*, c.* FROM Students s LEFT JOIN Classes c ON s.class_id = c.class_id";
     private static final String SELECT_BY_ID = "SELECT s.*, c.* FROM Students s LEFT JOIN Classes c ON s.class_id = c.class_id WHERE s.student_id = ?";
