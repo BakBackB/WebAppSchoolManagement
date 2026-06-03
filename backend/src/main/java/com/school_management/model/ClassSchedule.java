@@ -1,6 +1,6 @@
 package com.school_management.model;
 
-import java.sql.Time;
+import java.time.LocalTime;
 
 import com.school_management.dto.DayOfWeekEnum;
 
@@ -9,16 +9,20 @@ public class ClassSchedule {
     private int classId;
     private int subjectId;
     private int roomId;
+    private String subjectName; 
     private DayOfWeekEnum dayOfWeek;
-    private Time startTime;
-    private Time endTime;
+    private LocalTime startTime;
+    private LocalTime endTime;
 
     private SchoolClass schoolClass;
     private Subject subject;
     private Room room;
 
-    public ClassSchedule(int classId, int subjectId, int roomId, DayOfWeekEnum dayOfWeek, Time startTime,
-            Time endTime) {
+    public ClassSchedule() {
+    }
+
+    public ClassSchedule(int classId, int subjectId, int roomId, DayOfWeekEnum dayOfWeek, LocalTime startTime,
+            LocalTime endTime) {
         this.classId = classId;
         this.subjectId = subjectId;
         this.roomId = roomId;
@@ -50,6 +54,13 @@ public class ClassSchedule {
     public void setSubjectId(int subjectId) {
         this.subjectId = subjectId;
     }
+public String getSubjectName() {
+        return subjectName;
+    }
+
+    public void setSubjectName(String subjectName) {
+        this.subjectName = subjectName;
+    }
 
     public int getRoomId() {
         return roomId;
@@ -67,19 +78,19 @@ public class ClassSchedule {
         this.dayOfWeek = dayOfWeek;
     }
 
-    public Time getStartTime() {
+   public java.time.LocalTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Time startTime) {
+    public void setStartTime(java.time.LocalTime startTime) {
         this.startTime = startTime;
     }
 
-    public Time getEndTime() {
+    public java.time.LocalTime getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Time endTime) {
+    public void setEndTime(java.time.LocalTime endTime) {
         this.endTime = endTime;
     }
 

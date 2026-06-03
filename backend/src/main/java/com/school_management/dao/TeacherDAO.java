@@ -1,7 +1,6 @@
 package com.school_management.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,10 +10,7 @@ import java.util.List;
 import com.school_management.model.Teacher;
 
 public class TeacherDAO {
-    // Database configuration
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/school_management?useSSL=false";
-    private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "Daigia_minhphuc1511"; // CHANGE THIS
+    
     // SQL queries
     private static final String SELECT_ALL = "SELECT * FROM Teachers";
     private static final String SELECT_ALL_TEACHER_ID = "SELECT teacher_id FROM Teachers";
@@ -25,12 +21,8 @@ public class TeacherDAO {
 
     // ── Get database connection
     private Connection getConnection() throws SQLException {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            throw new SQLException("MySQL Driver not found", e);
-        }
-        return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+        // Calls your central config class directly from DatabaseConfig, no need to change username and password on every DAO class
+        return DatabaseConfig.getConnection(); 
     }
 
     // ── Get all teachers (unsorted, used for CSV export) ─────────────────────

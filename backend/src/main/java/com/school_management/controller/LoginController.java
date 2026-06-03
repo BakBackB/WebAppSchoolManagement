@@ -62,6 +62,10 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+    System.out.println("====== WEB PAGE DATA INSIDE SERVLET ======");
+    System.out.println("Collected Username: '" + request.getParameter("username") + "'");
+    System.out.println("Collected Password: '" + request.getParameter("password") + "'");
+    System.out.println("==========================================");
        String username = request.getParameter("username");
        String password = request.getParameter("password");
     //    String ipAddress = request.getRemoteAddr(); // Get ip address for logging user's action

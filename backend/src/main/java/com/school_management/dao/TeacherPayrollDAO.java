@@ -1,7 +1,6 @@
 package com.school_management.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,10 +12,8 @@ import com.school_management.model.Teacher;
 import com.school_management.model.TeacherPayroll;
 
 public class TeacherPayrollDAO {
-    // Database configuration
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/school_management?useSSL=false";
-    private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "Daigia_minhphuc1511"; // CHANGE THIS
+    
+
     // SQL queries
     private static final String SELECT_ALL = "SELECT tp.*, t.teacher_name, t.email, t.phone " +
             "FROM TeacherPayroll tp " +
@@ -43,13 +40,9 @@ public class TeacherPayrollDAO {
     private static final String COUNT_ON_HOLD = "SELECT COUNT(*) FROM TeacherPayroll WHERE status = 'ON_HOLD'";
     private static final String CHECK_PERIOD_EXISTS = "SELECT COUNT(*) FROM TeacherPayroll WHERE pay_period = ?";
     // ── Get database connection
-    private Connection getConnection() throws SQLException {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            throw new SQLException("MySQL Driver not found", e);
-        }
-        return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+   private Connection getConnection() throws SQLException {
+        // Calls your central config class directly from DatabaseConfig, no need to change username and password on every DAO class
+        return DatabaseConfig.getConnection(); 
     }
 
     // ── Get all payrolls (unsorted, used for CSV export) ─────────────────────

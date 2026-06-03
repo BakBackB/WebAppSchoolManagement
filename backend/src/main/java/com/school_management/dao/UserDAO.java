@@ -5,7 +5,6 @@
 package com.school_management.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,9 +21,8 @@ import com.school_management.model.User;
  */
 public class UserDAO {
 
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/school_management?useSSL=false";
-    private static final String DB_USER = "root";
-    private static final String DB_PASS = "Daigia_minhphuc1511";
+    
+
     private static final String SQL_AUTH = "SELECT u.*, r.* FROM users u LEFT JOIN roles r ON u.role_id = r.role_id WHERE u.username = ? AND u.is_active = 1";
     private static final String SQL_UPDATE_LOGIN = "UPDATE users SET last_login = NOW() WHERE user_id = ?";
     private static final String SQL_BY_ID = "SELECT u.*, r.* FROM users u LEFT JOIN roles r ON u.role_id = r.role_id WHERE u.user_id = ?";
@@ -32,13 +30,9 @@ public class UserDAO {
     private static final String VALIDATE_TOKEN = "SELECT user_id FROM RememberTokens WHERE token_hash=? AND expires_at > NOW()";
     private static final String DELETE_TOKEN = "DELETE FROM RememberTokens WHERE token_hash = ?";
 
-    private Connection getConnection() throws SQLException {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            return DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
-        } catch (ClassNotFoundException e) {
-            throw new SQLException("MySQL JDBC driver not found");
-        }
+   private Connection getConnection() throws SQLException {
+        // Calls your central config class directly from DatabaseConfig, no need to change username and password on every DAO class
+        return DatabaseConfig.getConnection(); 
     }
 
     /**
@@ -54,6 +48,11 @@ public class UserDAO {
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     String storedHash = rs.getString("password_hash");
+                    System.out.println("====== DATABASE DATA INSIDE JAVA ======");
+                    System.out.println("Input Username from web page: '" + username + "'");
+                    System.out.println("Database Username found: '" + rs.getString("username") + "'");
+                    System.out.println("Database Hash retrieved: '" + storedHash + "'");
+                    System.out.println("=======================================");
                     // Bcrypt.checkpw extracts the salt from the hash automatically
                     if (BCrypt.checkpw(password, storedHash)) {
                         User user = extractUserFromResultSet(rs);

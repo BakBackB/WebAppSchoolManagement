@@ -1,8 +1,12 @@
 package com.school_management.model;
 
 public class Subject {
+
     private int subjectId;
     private String subjectName;
+
+    public Subject() {
+    }
 
     public Subject(String subjectName) {
         this.subjectName = subjectName;

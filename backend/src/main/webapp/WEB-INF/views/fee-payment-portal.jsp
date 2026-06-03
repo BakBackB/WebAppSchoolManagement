@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
+  
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +10,16 @@
         <script src="https://cdn.tailwindcss.com"></script>
     </head>
     <body class="bg-[#f3f4f6] font-sans antialiased text-gray-800">
-
+      <nav class="bg-white border-b border-gray-200 p-4 flex gap-8 justify-center shadow-sm relative z-20 w-full">
+    <a href="<c:url value='/payment'/>" 
+       class="text-sm font-semibold text-blue-600 hover:text-blue-800 border-b-2 border-blue-600 pb-1 transition-colors">
+       Fee Payment
+    </a>
+    <a href="<c:url value='/subjects'/>" 
+       class="text-sm font-semibold text-gray-600 hover:text-gray-900 pb-1 transition-colors">
+       Manage Subjects
+    </a>
+</nav>
         <div class="flex min-h-screen">
             
             <div class="w-64 bg-white p-6 border-r border-gray-200 flex flex-col gap-6">

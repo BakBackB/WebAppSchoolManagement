@@ -3,6 +3,7 @@
 <c:set var="theme" value="${not empty cookie.user_theme.value ? cookie.user_theme.value : 'light'}" />
 <!DOCTYPE html>
 <html>
+ 
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,8 +12,9 @@
         <script src="https://cdn.tailwindcss.com"></script>
     </head>
     <body class="bg-[#f3f4f6] font-sans antialiased text-gray-800 ${theme}">
+  
         <div class="p-8 max-w-2xl mx-auto space-y-8 mt-10">
-            <div class="bg-white rounded-2xl p-8 shadow-md border border-gray-100">
+            <div class="bg-white rounded-2x l p-8 shadow-md border border-gray-100">
                 <div class="bg-[#111827] rounded-3xl p-3 shadow-2xl text-white">
                     <div class="flex justify-between items-center px-4">
                         <h1 class="text-2xl font-bold tracking-tight">Edit Payroll</h1>

@@ -6,11 +6,11 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ROOMS
 -- =========================
 INSERT INTO Rooms (room_name, room_type) VALUES
-('A1102', 'CLASSROOM'),
-('A1103', 'CLASSROOM'),
-('A2304', 'CLASSROOM'),
-('LA203', 'LAB'),
-('LA604', 'LAB');
+('A101', 'CLASSROOM'),
+('A102', 'CLASSROOM'),
+('B201', 'CLASSROOM'),
+('LAB01', 'LAB'),
+('LAB02', 'LAB');
 
 -- =========================
 -- CLASSES

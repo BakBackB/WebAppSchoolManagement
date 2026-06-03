@@ -19,3 +19,5 @@ buildNumber.properties
 backend/src/main/webapp/css/output.css 
 
 node_modules/
+db.properties
+run.txt

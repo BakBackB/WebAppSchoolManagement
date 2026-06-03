@@ -10,7 +10,16 @@
         <script src="https://cdn.tailwindcss.com"></script>
     </head>
     <body class="relative min-h-screen bg-slate-50 font-sans antialiased text-gray-800 overflow-x-hidden">
-
+<nav class="bg-white border-b border-gray-200 p-4 flex gap-8 justify-center shadow-sm relative z-20 w-full">
+    <a href="${pageContext.request.contextPath}/payroll" 
+       class="text-sm font-semibold text-blue-600 hover:text-blue-800 border-b-2 border-blue-600 pb-1 transition-colors">
+       Manage Payroll
+    </a>
+    <a href="${pageContext.request.contextPath}/admin/schedule-dashboard" 
+       class="text-sm font-semibold text-gray-600 hover:text-gray-900 pb-1 transition-colors">
+       Manage Schedules
+    </a>
+</nav>
         <%-- Gradient Background Decorative Blobs --%>
         <div class="fixed top-[-10%] left-[-5%] w-96 h-96 bg-purple-300 rounded-full mix-blend-multiply filter blur-[120px] opacity-50 pointer-events-none"></div>
         <div class="fixed top-[20%] right-[-5%] w-[30rem] h-[30rem] bg-cyan-300 rounded-full mix-blend-multiply filter blur-[120px] opacity-40 pointer-events-none"></div>

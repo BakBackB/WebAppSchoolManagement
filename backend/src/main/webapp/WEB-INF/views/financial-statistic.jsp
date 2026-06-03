@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
+    
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +11,16 @@
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </head>
     <body class="bg-[#f3f4f6] font-sans antialiased text-gray-800">
-
+        <nav class="bg-white border-b border-gray-200 p-4 flex gap-8 justify-center shadow-sm relative z-20 w-full">
+    <a href="<c:url value='/financial-statistics'/>" 
+       class="text-sm font-semibold text-blue-600 hover:text-blue-800 border-b-2 border-blue-600 pb-1 transition-colors">
+       Financial Statistics
+    </a>
+    <a href="<c:url value='/teacher/claim-classes'/>" 
+       class="text-sm font-semibold text-gray-600 hover:text-gray-900 pb-1 transition-colors">
+       Claim Class Slots
+    </a>
+</nav>
         <div class="p-8 max-w-7xl mx-auto space-y-8">
             
             <div class="flex justify-between items-center">
